@@ -2,12 +2,12 @@
   "uuid": "fe0555e9-4fd4-4388-aa90-e19a06be399e",
   "shortName": "watchface",
   "longName": "watchface",
-  "companyName": "MakeAwesomeHappen",
+  "companyName": "JUIT",
   "versionLabel": "1.0",
   "sdkVersion": "3",
   "targetPlatforms": ["aplite", "basalt"],
   "watchapp": {
-    "watchface": false
+    "watchface": true
   },
   "appKeys": {
     "dummy": 0
