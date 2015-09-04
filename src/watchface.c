@@ -5,7 +5,7 @@ static TextLayer *time_layer, *seconds_layer, *date_layer, *battery_text_layer;
 static GFont time_font, seconds_font, date_font, battery_font;
 static char battery_level_text[8];
 static BitmapLayer *bt_icon_layer, *battery_icon_layer;
-static GBitmap *bt_icon_bitmap, *battery_icon_bitmap;
+static GBitmap *bt_icon_bitmap, *battery_0_bitmap, *battery_1_bitmap, *battery_2_bitmap, *battery_3_bitmap, *battery_4_bitmap, *battery_5_bitmap, *battery_loading_bitmap;
 
 static void update_time() {
     time_t temp = time(NULL);
@@ -93,9 +93,15 @@ static void main_window_load(Window *window) {
     text_layer_set_text_alignment(battery_text_layer, GTextAlignmentLeft);
     layer_add_child(window_get_root_layer(main_window), text_layer_get_layer(battery_text_layer));
 
-    battery_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTERY_ICON);
+    battery_0_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTERY_0);
+    battery_1_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTERY_1);
+    battery_2_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTERY_2);
+    battery_3_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTERY_3);
+    battery_4_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTERY_4);
+    battery_5_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTERY_5);
+    battery_loading_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTERY_LOADING);
     battery_icon_layer = bitmap_layer_create(GRect(10, 7, 15, 24));
-    bitmap_layer_set_bitmap(battery_icon_layer, battery_icon_bitmap);
+    bitmap_layer_set_bitmap(battery_icon_layer, battery_0_bitmap);
     layer_add_child(window_get_root_layer(main_window), bitmap_layer_get_layer(battery_icon_layer));
 
     bt_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BT_ICON);
@@ -125,6 +131,21 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 
 static void battery_callback(BatteryChargeState state) {
     snprintf(battery_level_text, 8, "%d%%", state.charge_percent);
+    if (state.is_charging == true) {
+        bitmap_layer_set_bitmap(battery_icon_layer, battery_loading_bitmap);
+    } else if (state.charge_percent >= 90) {
+        bitmap_layer_set_bitmap(battery_icon_layer, battery_5_bitmap);
+    } else if (state.charge_percent >= 70) {
+        bitmap_layer_set_bitmap(battery_icon_layer, battery_4_bitmap);
+    } else if (state.charge_percent >= 50) {
+        bitmap_layer_set_bitmap(battery_icon_layer, battery_3_bitmap);
+    } else if (state.charge_percent >= 30) {
+        bitmap_layer_set_bitmap(battery_icon_layer, battery_2_bitmap);
+    } else if (state.charge_percent >= 10) {
+        bitmap_layer_set_bitmap(battery_icon_layer, battery_1_bitmap);
+    } else {
+        bitmap_layer_set_bitmap(battery_icon_layer, battery_0_bitmap);
+    }
     text_layer_set_text(battery_text_layer, battery_level_text);
 }
 

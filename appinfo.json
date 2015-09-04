@@ -39,8 +39,38 @@
       },
       {
         "type": "png",
-        "name": "IMAGE_BATTERY_ICON",
-        "file": "images/battery-icon.png"
+        "name": "IMAGE_BATTERY_0",
+        "file": "images/battery-0.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_BATTERY_1",
+        "file": "images/battery-1.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_BATTERY_2",
+        "file": "images/battery-2.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_BATTERY_3",
+        "file": "images/battery-3.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_BATTERY_4",
+        "file": "images/battery-4.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_BATTERY_5",
+        "file": "images/battery-5.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_BATTERY_LOADING",
+        "file": "images/battery-loading.png"
       }
     ]
   }
