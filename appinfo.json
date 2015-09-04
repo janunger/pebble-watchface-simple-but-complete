@@ -31,6 +31,11 @@
         "name": "FONT_ARIAL_NARROW_BOLD_24",
         "file": "fonts/Arial Narrow Bold.ttf",
         "compatibility": "2.7"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_BT_ICON",
+        "file": "images/bt-icon.png"
       }
     ]
   }

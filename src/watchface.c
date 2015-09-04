@@ -4,6 +4,8 @@ static Window *main_window;
 static TextLayer *time_layer, *seconds_layer, *date_layer, *battery_layer;
 static GFont time_font, seconds_font, date_font, battery_font;
 static char battery_level_text[8];
+static BitmapLayer *bt_icon_layer;
+static GBitmap *bt_icon_bitmap;
 
 static void update_time() {
     time_t temp = time(NULL);
@@ -23,6 +25,13 @@ static void update_time() {
     static char date_buffer[16];
     strftime(date_buffer, sizeof(date_buffer), "%a %d %b", tick_time);
     text_layer_set_text(date_layer, date_buffer);
+}
+
+static void bluetooth_callback(bool connected) {
+    layer_set_hidden(bitmap_layer_get_layer(bt_icon_layer), !connected);
+    if (!connected) {
+        vibes_double_pulse();
+    }
 }
 
 static void main_window_load(Window *window) {
@@ -57,6 +66,13 @@ static void main_window_load(Window *window) {
     text_layer_set_font(battery_layer, battery_font);
     text_layer_set_text_alignment(battery_layer, GTextAlignmentLeft);
     layer_add_child(window_get_root_layer(main_window), text_layer_get_layer(battery_layer));
+
+    bt_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BT_ICON);
+    bt_icon_layer = bitmap_layer_create(GRect(116, 7, 18, 24));
+    bitmap_layer_set_bitmap(bt_icon_layer, bt_icon_bitmap);
+    layer_add_child(window_get_root_layer(main_window), bitmap_layer_get_layer(bt_icon_layer));
+
+    bluetooth_callback(bluetooth_connection_service_peek());
 }
 
 static void main_window_unload(Window *window) {
@@ -68,6 +84,8 @@ static void main_window_unload(Window *window) {
     text_layer_destroy(seconds_layer);
     text_layer_destroy(date_layer);
     text_layer_destroy(battery_layer);
+    gbitmap_destroy(bt_icon_bitmap);
+    bitmap_layer_destroy(bt_icon_layer);
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
@@ -90,6 +108,7 @@ static void init(void) {
     tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
     battery_callback(battery_state_service_peek());
     battery_state_service_subscribe(battery_callback);
+    bluetooth_connection_service_subscribe(bluetooth_callback);
 }
 
 static void deinit(void) {
