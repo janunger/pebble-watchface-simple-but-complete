@@ -1,8 +1,9 @@
 #include <pebble.h>
 
 static Window *main_window;
-static TextLayer *time_layer, *seconds_layer, *date_layer;
-static GFont time_font, seconds_font, date_font;
+static TextLayer *time_layer, *seconds_layer, *date_layer, *battery_layer;
+static GFont time_font, seconds_font, date_font, battery_font;
+static char battery_level_text[8];
 
 static void update_time() {
     time_t temp = time(NULL);
@@ -48,19 +49,34 @@ static void main_window_load(Window *window) {
     text_layer_set_font(date_layer, date_font);
     text_layer_set_text_alignment(date_layer, GTextAlignmentCenter);
     layer_add_child(window_get_root_layer(main_window), text_layer_get_layer(date_layer));
+    
+    battery_layer = text_layer_create(GRect(5, 5, 67, 34));
+    text_layer_set_background_color(battery_layer, GColorClear);
+    text_layer_set_text_color(battery_layer, GColorBlack);
+    battery_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ARIAL_NARROW_BOLD_24));
+    text_layer_set_font(battery_layer, battery_font);
+    text_layer_set_text_alignment(battery_layer, GTextAlignmentLeft);
+    layer_add_child(window_get_root_layer(main_window), text_layer_get_layer(battery_layer));
 }
 
 static void main_window_unload(Window *window) {
     fonts_unload_custom_font(time_font);
     fonts_unload_custom_font(seconds_font);
     fonts_unload_custom_font(date_font);
+    fonts_unload_custom_font(battery_font);
     text_layer_destroy(time_layer);
     text_layer_destroy(seconds_layer);
     text_layer_destroy(date_layer);
+    text_layer_destroy(battery_layer);
 }
 
 static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
     update_time();
+}
+
+static void battery_callback(BatteryChargeState state) {
+    snprintf(battery_level_text, 8, "B %d%%", state.charge_percent);
+    text_layer_set_text(battery_layer, battery_level_text);
 }
 
 static void init(void) {
@@ -72,6 +88,8 @@ static void init(void) {
     window_stack_push(main_window, true);
     update_time();
     tick_timer_service_subscribe(SECOND_UNIT, tick_handler);
+    battery_callback(battery_state_service_peek());
+    battery_state_service_subscribe(battery_callback);
 }
 
 static void deinit(void) {
