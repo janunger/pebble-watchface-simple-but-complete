@@ -19,6 +19,12 @@
         "name": "FONT_ARIAL_NARROW_BOLD_60",
         "file": "fonts/Arial Narrow Bold.ttf",
         "compatibility": "2.7"
+      },
+      {
+        "type": "font",
+        "name": "FONT_ARIAL_NARROW_BOLD_30",
+        "file": "fonts/Arial Narrow Bold.ttf",
+        "compatibility": "2.7"
       }
     ]
   }
