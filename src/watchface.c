@@ -1,11 +1,11 @@
 #include <pebble.h>
 
 static Window *main_window;
-static TextLayer *time_layer, *seconds_layer, *date_layer, *battery_layer;
+static TextLayer *time_layer, *seconds_layer, *date_layer, *battery_text_layer;
 static GFont time_font, seconds_font, date_font, battery_font;
 static char battery_level_text[8];
-static BitmapLayer *bt_icon_layer;
-static GBitmap *bt_icon_bitmap;
+static BitmapLayer *bt_icon_layer, *battery_icon_layer;
+static GBitmap *bt_icon_bitmap, *battery_icon_bitmap;
 
 static void update_time() {
     time_t temp = time(NULL);
@@ -59,13 +59,18 @@ static void main_window_load(Window *window) {
     text_layer_set_text_alignment(date_layer, GTextAlignmentCenter);
     layer_add_child(window_get_root_layer(main_window), text_layer_get_layer(date_layer));
     
-    battery_layer = text_layer_create(GRect(5, 5, 67, 34));
-    text_layer_set_background_color(battery_layer, GColorClear);
-    text_layer_set_text_color(battery_layer, GColorBlack);
+    battery_text_layer = text_layer_create(GRect(32, 5, 67, 34));
+    text_layer_set_background_color(battery_text_layer, GColorClear);
+    text_layer_set_text_color(battery_text_layer, GColorBlack);
     battery_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ARIAL_NARROW_BOLD_24));
-    text_layer_set_font(battery_layer, battery_font);
-    text_layer_set_text_alignment(battery_layer, GTextAlignmentLeft);
-    layer_add_child(window_get_root_layer(main_window), text_layer_get_layer(battery_layer));
+    text_layer_set_font(battery_text_layer, battery_font);
+    text_layer_set_text_alignment(battery_text_layer, GTextAlignmentLeft);
+    layer_add_child(window_get_root_layer(main_window), text_layer_get_layer(battery_text_layer));
+
+    battery_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BATTERY_ICON);
+    battery_icon_layer = bitmap_layer_create(GRect(10, 7, 15, 24));
+    bitmap_layer_set_bitmap(battery_icon_layer, battery_icon_bitmap);
+    layer_add_child(window_get_root_layer(main_window), bitmap_layer_get_layer(battery_icon_layer));
 
     bt_icon_bitmap = gbitmap_create_with_resource(RESOURCE_ID_IMAGE_BT_ICON);
     bt_icon_layer = bitmap_layer_create(GRect(116, 7, 18, 24));
@@ -83,7 +88,7 @@ static void main_window_unload(Window *window) {
     text_layer_destroy(time_layer);
     text_layer_destroy(seconds_layer);
     text_layer_destroy(date_layer);
-    text_layer_destroy(battery_layer);
+    text_layer_destroy(battery_text_layer);
     gbitmap_destroy(bt_icon_bitmap);
     bitmap_layer_destroy(bt_icon_layer);
 }
@@ -93,8 +98,8 @@ static void tick_handler(struct tm *tick_time, TimeUnits units_changed) {
 }
 
 static void battery_callback(BatteryChargeState state) {
-    snprintf(battery_level_text, 8, "B %d%%", state.charge_percent);
-    text_layer_set_text(battery_layer, battery_level_text);
+    snprintf(battery_level_text, 8, "%d%%", state.charge_percent);
+    text_layer_set_text(battery_text_layer, battery_level_text);
 }
 
 static void init(void) {

@@ -36,6 +36,11 @@
         "type": "png",
         "name": "IMAGE_BT_ICON",
         "file": "images/bt-icon.png"
+      },
+      {
+        "type": "png",
+        "name": "IMAGE_BATTERY_ICON",
+        "file": "images/battery-icon.png"
       }
     ]
   }
