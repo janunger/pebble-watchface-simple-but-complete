@@ -16,6 +16,9 @@ static void update_time() {
     } else {
         strftime(time_buffer, sizeof("00:00"), "%I:%M", tick_time);
     }
+    if (time_buffer[0] == '0') {
+        memmove(time_buffer, time_buffer + 1, strlen(time_buffer));
+    }
     text_layer_set_text(time_layer, time_buffer);
 
     static char seconds_buffer[8];
