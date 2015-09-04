@@ -22,8 +22,34 @@ static void update_time() {
     strftime(seconds_buffer, sizeof(seconds_buffer), "%S", tick_time);
     text_layer_set_text(seconds_layer, seconds_buffer);
 
+    // setLocale is currently broken, so we format the date ourselves.
+    static char fw[2], weekday[3];
+    strftime(fw, sizeof(fw), "%w", tick_time);
+    if (strcmp("0", fw) == 0) {
+        strcpy(weekday, "So");
+    } else if (strcmp("1", fw) == 0) {
+        strcpy(weekday, "Mo");
+    } else if (strcmp("2", fw) == 0) {
+        strcpy(weekday, "Di");
+    } else if (strcmp("3", fw) == 0) {
+        strcpy(weekday, "Mi");
+    } else if (strcmp("4", fw) == 0) {
+        strcpy(weekday, "Do");
+    } else if (strcmp("5", fw) == 0) {
+        strcpy(weekday, "Fr");
+    } else if (strcmp("6", fw) == 0) {
+        strcpy(weekday, "Sa");
+    } else {
+        strcpy(weekday, "??");
+    }
+
+    static char day[11];
+    strftime(day, sizeof(day), "%d.%m.%y", tick_time);
+
     static char date_buffer[16];
-    strftime(date_buffer, sizeof(date_buffer), "%a %d %b", tick_time);
+    strcpy(date_buffer, weekday);
+    strcat(date_buffer, " ");
+    strcat(date_buffer, day);
     text_layer_set_text(date_layer, date_buffer);
 }
 
