@@ -67,7 +67,7 @@ static void main_window_load(Window *window) {
     time_layer = text_layer_create(GRect(0, 30, 144, 61));
     text_layer_set_background_color(time_layer, GColorClear);
     text_layer_set_text_color(time_layer, GColorBlack);
-    time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ARIAL_NARROW_BOLD_60));
+    time_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LIBERATION_NARROW_BOLD_60));
     text_layer_set_font(time_layer, time_font);
     text_layer_set_text_alignment(time_layer, GTextAlignmentCenter);
     layer_add_child(window_get_root_layer(main_window), text_layer_get_layer(time_layer));
@@ -75,7 +75,7 @@ static void main_window_load(Window *window) {
     seconds_layer = text_layer_create(GRect(0, 90, 144, 34));
     text_layer_set_background_color(seconds_layer, GColorClear);
     text_layer_set_text_color(seconds_layer, GColorBlack);
-    seconds_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ARIAL_NARROW_BOLD_30));
+    seconds_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LIBERATION_NARROW_BOLD_30));
     text_layer_set_font(seconds_layer, seconds_font);
     text_layer_set_text_alignment(seconds_layer, GTextAlignmentCenter);
     layer_add_child(window_get_root_layer(main_window), text_layer_get_layer(seconds_layer));
@@ -83,7 +83,7 @@ static void main_window_load(Window *window) {
     date_layer = text_layer_create(GRect(0, 125, 144, 34));
     text_layer_set_background_color(date_layer, GColorClear);
     text_layer_set_text_color(date_layer, GColorBlack);
-    date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ARIAL_NARROW_BOLD_30));
+    date_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LIBERATION_NARROW_BOLD_30));
     text_layer_set_font(date_layer, date_font);
     text_layer_set_text_alignment(date_layer, GTextAlignmentCenter);
     layer_add_child(window_get_root_layer(main_window), text_layer_get_layer(date_layer));
@@ -91,7 +91,7 @@ static void main_window_load(Window *window) {
     battery_text_layer = text_layer_create(GRect(32, 5, 67, 34));
     text_layer_set_background_color(battery_text_layer, GColorClear);
     text_layer_set_text_color(battery_text_layer, GColorBlack);
-    battery_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_ARIAL_NARROW_BOLD_24));
+    battery_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LIBERATION_NARROW_BOLD_24));
     text_layer_set_font(battery_text_layer, battery_font);
     text_layer_set_text_alignment(battery_text_layer, GTextAlignmentLeft);
     layer_add_child(window_get_root_layer(main_window), text_layer_get_layer(battery_text_layer));
