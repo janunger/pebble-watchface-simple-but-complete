@@ -88,10 +88,10 @@ static void main_window_load(Window *window) {
     text_layer_set_text_alignment(date_layer, GTextAlignmentCenter);
     layer_add_child(window_get_root_layer(main_window), text_layer_get_layer(date_layer));
     
-    battery_text_layer = text_layer_create(GRect(32, 5, 67, 34));
+    battery_text_layer = text_layer_create(GRect(32, 0, 67, 34));
     text_layer_set_background_color(battery_text_layer, GColorClear);
     text_layer_set_text_color(battery_text_layer, GColorBlack);
-    battery_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LIBERATION_NARROW_BOLD_24));
+    battery_font = fonts_load_custom_font(resource_get_handle(RESOURCE_ID_FONT_LIBERATION_NARROW_BOLD_30));
     text_layer_set_font(battery_text_layer, battery_font);
     text_layer_set_text_alignment(battery_text_layer, GTextAlignmentLeft);
     layer_add_child(window_get_root_layer(main_window), text_layer_get_layer(battery_text_layer));

@@ -27,12 +27,6 @@
         "compatibility": "2.7"
       },
       {
-        "type": "font",
-        "name": "FONT_LIBERATION_NARROW_BOLD_24",
-        "file": "fonts/LiberationSansNarrow-Bold.ttf",
-        "compatibility": "2.7"
-      },
-      {
         "type": "png",
         "name": "IMAGE_BT_ICON",
         "file": "images/bt-icon.png"
